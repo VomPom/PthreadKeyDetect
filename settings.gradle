@@ -1,0 +1,4 @@
+rootProject.name = "pthread_key"
+include ':app'
+include ':lib_pthread_key'
+include ':matrix-android-commons'

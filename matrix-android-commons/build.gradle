@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+apply from: '../deps.gradle'
+apply from: rootProject.file('gradle/WeChatNativeDepend.gradle')
+
+
+android {
+    compileSdkVersion Ver.compile_sdk
+
+    defaultConfig {
+        minSdkVersion Ver.min_sdk
+        targetSdkVersion Ver.target_sdk
+        versionCode 1
+        versionName "1.0"
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+//        externalNativeBuild {
+//            cmake {
+//                targets = ['xhook', 'semi_dlfcn', 'enhance_dlsym']
+//                arguments = ["-DEnableLOG=${gradle.enableLog() ? "ON" : "OFF"}" as String]
+//            }
+//            exportHeaders {
+//                from('src/main/cpp/libxhook') {
+//                    include '**/*.h'
+//                }
+//                from('src/main/cpp/libsemi_dlfcn') {
+//                    include '**/*.h'
+//                }
+//                from('src/main/cpp/libenhance_dlsym') {
+//                    include '**/*.h'
+//                }
+//            }
+//        }
+
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation project(':matrix-android-lib')
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'androidx.annotation:annotation:1.0.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+}

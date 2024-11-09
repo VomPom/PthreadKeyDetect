@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.application'
+}
+apply plugin: 'kotlin-android'
+apply from: '../repos.gradle'
+apply from: '../deps.gradle'
+
+android {
+    compileSdkVersion Ver.compile_sdk
+    buildToolsVersion Ver.build_tools
+
+    defaultConfig {
+        applicationId "com.vompom.pthread_key_t"
+        minSdkVersion Ver.min_sdk
+        targetSdkVersion Ver.target_sdk
+        versionCode 1
+        versionName "1.0"
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+    implementation Deps.kotlin.stdlib
+    implementation Deps.androidx.appcompat
+    implementation Deps.androidx.constraintlayout
+    implementation Deps.google.gson
+    implementation project(":lib_pthread_key")
+}
